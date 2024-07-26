@@ -50,10 +50,10 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        let user = await User.findOne({ username });
+        let user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
@@ -75,7 +75,10 @@ exports.login = async (req, res) => {
             { expiresIn: 360000 },
             (err, token) => {
                 if (err) throw err;
-                res.json({ token });
+                // Exclude password from user data
+                const { password, ...userData } = user.toObject();
+                res.json({ token, user: userData });
+                console.log("res", res);
             }
         );
 

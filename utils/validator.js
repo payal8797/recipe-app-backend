@@ -7,7 +7,7 @@ exports.registerValidation = [
 ];
 
 exports.loginValidation = [
-    check('username', 'Username is required').not().isEmpty(),
+    check('email', 'Email is required').not().isEmpty(),
     check('password', 'Password is required').exists()
 ];
 
